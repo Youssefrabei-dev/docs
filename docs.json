@@ -11,17 +11,19 @@
 	"navigation": {
 		"languages": [
 			{
-				"language": "en",
-				"pages": [
-					{
-						"group": "Getting Started",
-						"pages": ["index", "quickstart"]
+        "language": "en",
+        "tabs": [
+          {
+            "tab": "Getting Started",
+            "pages": [
+              "index",
+              "quickstart"
+            ]
           },
           {
-            "group": "API Reference",
-            "openapi": "https://youssefrabei.mintlify.io/openAPI.json"
+            "tab": "API Reference"
           }
-				]
+        ]
 			},
 			{
 				"language": "ar",
