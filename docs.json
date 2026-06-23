@@ -16,7 +16,11 @@
 					{
 						"group": "Getting Started",
 						"pages": ["index", "quickstart"]
-					}
+          },
+          {
+            "group": "API Reference",
+            "openapi": "https://youssefrabei.mintlify.io/openAPI.json"
+          }
 				]
 			},
 			{
