@@ -20,7 +20,7 @@
 					{
 						"group": "API Reference",
 						"icon": "server",
-						"openapi": "./openapi.json"
+						"openapi": "openapi.json"
 					}
 				]
 			},
