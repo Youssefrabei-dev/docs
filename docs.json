@@ -9,12 +9,29 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "pages": [
+    "languages": [
       {
-        "group": "Getting Started",
+        "language": "en",
         "pages": [
-          "index",
-          "quickstart"
+          {
+            "group": "Getting Started",
+            "pages": [
+              "index",
+              "quickstart"
+            ]
+          }
+        ]
+      },
+      {
+        "language": "ar",
+        "pages": [
+          {
+            "group": "البدء",
+            "pages": [
+              "ar/index",
+              "ar/quickstart"
+            ]
+          }
         ]
       }
     ],
