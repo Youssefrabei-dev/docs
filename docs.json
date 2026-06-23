@@ -11,20 +11,17 @@
 	"navigation": {
 		"languages": [
 			{
-        "language": "en",
-        "anchors": [
-          {
-            "anchor": "Getting Started",
-            "pages": [
-              "index",
-              "quickstart"
-            ]
-          },
-          {
-            "anchor": "API Reference",
-            "openapi": "openapi.json"
-          }
-        ]
+				"language": "en",
+				"anchors": [
+					{
+						"anchor": "Getting Started",
+						"pages": ["index", "quickstart"]
+					},
+					{
+						"anchor": "API Reference",
+						"openapi": "https://petstore3.swagger.io/api/v3/openapi.json"
+					}
+				]
 			},
 			{
 				"language": "ar",
