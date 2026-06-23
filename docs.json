@@ -19,6 +19,11 @@
               "index",
               "quickstart"
             ]
+          },
+          {
+            "group": "API Reference",
+            "icon": "server",
+            "openapi": "https://sawa-app-dev.up.railway.app/docs.json"
           }
         ]
       },
