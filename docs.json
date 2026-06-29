@@ -153,12 +153,6 @@
 		}
 	},
 	"navbar": {
-		"links": [
-			{
-				"label": "API (Scalar)",
-				"href": "https://sawa-app-de848.ondigitalocean.app/docs"
-			}
-		],
 		"primary": {
 			"type": "button",
 			"label": "Get started",
@@ -166,7 +160,7 @@
 		}
 	},
 	"contextual": {
-		"options": ["copy", "view", "cursor", "download-pdf"]
+		"options": ["copy", "view", "cursor"]
 	},
 	"footer": {
 		"socials": {
@@ -174,10 +168,22 @@
 		}
 	},
 	"redirects": [
-		{ "source": "/overview/getting-started", "destination": "/en/tutorials/dev-onboarding" },
-		{ "source": "/overview/architecture", "destination": "/en/explanation/system-architecture" },
-		{ "source": "/database/schema", "destination": "/en/reference/database/schema" },
+		{
+			"source": "/overview/getting-started",
+			"destination": "/en/tutorials/dev-onboarding"
+		},
+		{
+			"source": "/overview/architecture",
+			"destination": "/en/explanation/system-architecture"
+		},
+		{
+			"source": "/database/schema",
+			"destination": "/en/reference/database/schema"
+		},
 		{ "source": "/models/users", "destination": "/en/reference/domains/users" },
-		{ "source": "/diagrams/contract/dto-openapi-architecture", "destination": "/en/explanation/api-contract-architecture" }
+		{
+			"source": "/diagrams/contract/dto-openapi-architecture",
+			"destination": "/en/explanation/api-contract-architecture"
+		}
 	]
 }
