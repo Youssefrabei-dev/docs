@@ -1,0 +1,26 @@
+---
+title: "Places reactions"
+description: "User reactions (likes, etc.) on places."
+---
+
+Reactions let users express sentiment on places using typed reaction values.
+
+## Tables
+
+| Table | Purpose |
+|-------|---------|
+| `places_reactions` | User reaction per place |
+| `reactions_types` | Reaction type lookup |
+
+## API endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/places-reactions` | List reactions |
+| POST | `/places-reactions` | Create reaction |
+| GET | `/places-reactions/place/:placeID` | By place |
+| GET | `/places-reactions/user/:userID` | By user |
+| PUT | `/places-reactions/:id` | Update |
+| DELETE | `/places-reactions/:id` | Delete |
+
+OpenAPI: **API Reference** tab → Places Reactions tag.

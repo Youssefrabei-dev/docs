@@ -1,0 +1,54 @@
+---
+title: "Welcome to Sawa Docs"
+description: "Documentation for the Sawa social activity-planning platform — backend API, architecture, and developer guides."
+---
+
+Sawa is a social activity-planning platform. Users discover **places** and **activities**, connect through **companionships**, and plan collaborative **events** with voting, RSVP, and itinerary workflows.
+
+This documentation is organized using the [Diataxis framework](https://diataxis.fr/): tutorials for learning, how-to guides for tasks, reference for facts, and explanation for architecture and concepts.
+
+## Who this is for
+
+<CardGroup cols={2}>
+  <Card title="New developers" icon="graduation-cap" href="/en/tutorials/dev-onboarding">
+    Start with the onboarding tutorial — clone, configure, run the API, and make your first authenticated request in under an hour.
+  </Card>
+  <Card title="Backend developers" icon="code" href="/en/how-to/add-a-route">
+    How-to guides for migrations, routes, OpenAPI, media uploads, and deployment.
+  </Card>
+  <Card title="Tech leads" icon="sitemap" href="/en/explanation/system-architecture">
+    System architecture, domain model, deployment topology, and auth trust boundaries.
+  </Card>
+  <Card title="Mobile developers" icon="mobile" href="/en/mobile/index">
+    API contract sync, Better Auth bearer sessions, and TypeScript codegen.
+  </Card>
+</CardGroup>
+
+## Quick links
+
+<CardGroup cols={2}>
+  <Card title="API Reference" icon="square-terminal" href="/en/reference/domains/places">
+    Browse auto-generated endpoint docs from the live OpenAPI spec.
+  </Card>
+  <Card title="Scalar (live API)" icon="play" href="https://sawa-app-de848.ondigitalocean.app/docs">
+    Interactive API explorer on production.
+  </Card>
+  <Card title="Architecture" icon="diagram-project" href="/en/explanation/system-architecture">
+    Full-stack diagram: clients, API, PostgreSQL, Redis, S3.
+  </Card>
+  <Card title="Auth" icon="lock" href="/en/explanation/auth-architecture">
+    Better Auth sessions, bearer tokens, and middleware order.
+  </Card>
+</CardGroup>
+
+## Repositories
+
+| Repo | Role |
+|------|------|
+| [SawaApp](https://github.com/SawaApp/SawaApp) | Express + TypeScript backend API |
+| [Mintlify-Docs](https://github.com/Youssefrabei-dev/Mintlify-Docs) | This documentation site |
+| SawaMobile | Expo / React Native mobile app |
+
+<Note>
+  Before publishing doc changes that reference API endpoints, run `npm run docs:export:mintlify` from `SawaApp` to refresh `openAPI.json`.
+</Note>

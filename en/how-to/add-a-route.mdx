@@ -1,0 +1,48 @@
+---
+title: "Add a route"
+description: "Checklist for adding a new Express route following SawaApp conventions."
+---
+
+## Checklist
+
+<Steps>
+  <Step title="Schema">
+    Define or extend Drizzle table in `api/db/schema/`. Run [migrations](/en/how-to/run-migrations).
+  </Step>
+
+  <Step title="Model">
+    Add query functions in `api/models/<domain>.model.ts`. No `req`/`res` here.
+  </Step>
+
+  <Step title="Controller">
+    Add handler in `api/controllers/<domain>.controller.ts`. Use `createCommonError` for failures.
+  </Step>
+
+  <Step title="Route">
+    Wire Express router in `api/routes/<domain>.routes.ts`. Export and mount in `api/server.ts`.
+  </Step>
+
+  <Step title="OpenAPI">
+    Register path in `api/docs/<domain>.ts`. See [Add OpenAPI docs](/en/how-to/add-openapi-docs).
+  </Step>
+
+  <Step title="Test">
+    Verify in Scalar (`/docs`) and export to Mintlify:
+
+    ```bash
+    npm run docs:export:mintlify
+    ```
+  </Step>
+</Steps>
+
+## Auth
+
+New business routes are **protected by default** via `authenticateUnlessPublic`. To make a route public, add it to the allowlist in `authenticateUnlessPublic.middleware.ts`.
+
+## Mount order
+
+Mount new routers in `api/server.ts` after `authenticateUnlessPublic` and before `notFound`.
+
+## Error handling
+
+Throw `createCommonError(StatusPhrases.*, { path: req.path, details })` — see [Error codes](/en/reference/error-codes).

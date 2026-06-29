@@ -1,0 +1,31 @@
+---
+title: "Places media"
+description: "S3-backed images attached to places."
+---
+
+Place media stores image metadata in PostgreSQL and files in S3-compatible storage (MinIO locally, DigitalOcean Spaces in production).
+
+## Tables
+
+| Table | Purpose |
+|-------|---------|
+| `places_media` | Media records linked to `placeID` |
+| `media_types` | Type lookup (image, etc.) |
+
+## API endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/places/:placeID/media` | List media for a place |
+| POST | `/places/:placeID/media` | Upload (multipart) |
+| DELETE | `/places-media/:id` | Remove media record |
+
+Also available via top-level `/places-media` CRUD routes.
+
+OpenAPI: **API Reference** tab → Places Media tag.
+
+## Upload flow
+
+Multipart upload → `mediaHandler` middleware → `multer-s3` → S3 bucket. Responses may include presigned URLs for client display.
+
+See [Manage media uploads](/en/how-to/manage-media-uploads).

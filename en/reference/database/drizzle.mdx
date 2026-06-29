@@ -1,0 +1,46 @@
+---
+title: "Drizzle ORM"
+description: "Database workflow with Drizzle Kit: generate, migrate, studio, and seed."
+---
+
+SawaApp uses [Drizzle ORM](https://orm.drizzle.team/) with Drizzle Kit for migrations and Drizzle Studio for GUI exploration.
+
+## Configuration
+
+- Schema: `api/db/schema/`
+- Migrations: `api/db/migrations/`
+- Config: `drizzle.config.ts` at project root
+- Connection: `api/db/db.ts` (pg Pool + Drizzle instance)
+
+## Common commands
+
+```bash
+npm run db:generate    # Create migration from schema diff
+npm run db:migrate     # Apply pending migrations
+npm run db:push        # Generate + migrate
+npm run studio         # Drizzle Studio at localhost
+```
+
+## Named migrations
+
+```bash
+npx drizzle-kit generate --name add_events_votes
+```
+
+## Seed
+
+`npm run db:seed` creates users via Better Auth `signUpEmail()` — not raw SQL inserts for passwords.
+
+## Multiple database targets
+
+`db:migrate` may prompt for target when `DATABASE_URL_STAGING`, `DATABASE_URL_BACKUP`, or `DATABASE_URL_IOS` are set.
+
+## Schema changes workflow
+
+1. Edit files in `api/db/schema/`
+2. `npm run db:generate` (or `db:push`)
+3. Review generated SQL in `api/db/migrations/`
+4. `npm run db:migrate`
+5. `npm run liam:build` to refresh ERD viewer
+
+See [Run migrations](/en/how-to/run-migrations) for the full how-to.

@@ -1,0 +1,22 @@
+---
+title: "Activities"
+description: "Things to do — activity catalog and CRUD endpoints."
+---
+
+Activities represent things users can do, linked to categories. They connect to places via **plactivities**.
+
+## Table: `activities`
+
+Key fields: `name`, `description`, `categoryID`, standard audit fields.
+
+## API endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/activities` | List activities |
+| POST | `/activities` | Create |
+| GET | `/activities/:id` | Get by ID |
+| PUT | `/activities/:id` | Update |
+| DELETE | `/activities/:id` | Soft delete |
+
+OpenAPI: **API Reference** tab → Activities tag.

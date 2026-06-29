@@ -1,0 +1,89 @@
+---
+title: "Configuration"
+description: "Environment variables and config.ts settings for SawaApp."
+---
+
+SawaApp reads configuration from `.env` (via `dotenv`) and exposes type-safe access through `api/config.ts`.
+
+Copy `.env.template` to `.env` and fill in values before running the server.
+
+## Server
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `PORT` | No | Server port (default `8080`) |
+| `NODE_ENV` | No | `development` or `production` |
+
+## Authentication (Better Auth)
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `BETTER_AUTH_SECRET` | Yes | ≥32 characters; fail-fast at boot if missing |
+| `BETTER_AUTH_URL` | Yes | Public API URL for OAuth callbacks |
+| `GOOGLE_CLIENT_ID` | For OAuth | Google sign-in |
+| `GOOGLE_CLIENT_SECRET` | For OAuth | Google sign-in |
+
+## Database
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DATABASE_URL` | Yes | Primary PostgreSQL connection |
+| `DATABASE_URL_STAGING` | No | Staging DB (migrate picker) |
+| `DATABASE_URL_BACKUP` | No | Backup DB target |
+| `DATABASE_URL_IOS` | No | iOS testing DB |
+| `REDIS_URL` | Yes | Redis connection |
+| `REDIS_URL_STAGING` | No | Staging Redis |
+
+## User validation
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `MIN_AGE` | Yes | Minimum user age |
+| `MAX_AGE` | Yes | Maximum user age |
+| `USERNAME_REGEX` | No | Override username pattern |
+| `PASSWORD_REGEX` | No | Override password pattern |
+
+## Object storage (dev uses MinIO vars)
+
+| Variable | Description |
+|----------|-------------|
+| `MINIO_ENDPOINT_DEV` | S3-compatible endpoint |
+| `MINIO_BUCKET_NAME_DEV` | Bucket name |
+| `MINIO_REGION_DEV` | Region |
+| `MINIO_ACCESS_KEY_ID_DEV` | Access key |
+| `MINIO_ACCESS_KEY_SECRET_DEV` | Secret key |
+
+Production may use `DIGITAL_OCEAN_*` variables for Spaces.
+
+## Email
+
+| Variable | Description |
+|----------|-------------|
+| `RESEND_API_KEY` | Resend API key |
+| `WEBSITE_URL` | Site URL for email links |
+
+## Liam ERD admin
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `LIAM_SESSION_SECRET` | Prod: yes | Express session secret for `/liam/*` |
+| `LIAM_PASSWORD` | Yes | Admin password for ERD viewer |
+
+## Mobile contract API
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `CONTRACT_API_KEY` | Prod: recommended | Header `X-Sawa-Contract-Key` for `/contract/*` |
+| `API_CONTRACT_VERSION` | No | Bumped on breaking contract changes |
+
+## CORS (production)
+
+| Variable | Description |
+|----------|-------------|
+| `CLIENT_URL` | Comma-separated allowed origins |
+
+In development, `config.clientUrls` includes localhost and known staging URLs.
+
+## config.ts
+
+`api/config.ts` centralizes env parsing. Never commit `.env` — use `.env.template` as the reference list.

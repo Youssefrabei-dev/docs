@@ -1,0 +1,64 @@
+---
+title: "Run migrations"
+description: "Create and apply Drizzle database migrations safely."
+---
+
+## Quick path
+
+After editing `api/db/schema/`:
+
+```bash
+npm run db:push
+```
+
+This runs `db:generate` then `db:migrate`.
+
+## Step by step
+
+<Steps>
+  <Step title="Edit schema">
+    Modify or add files under `api/db/schema/`.
+  </Step>
+
+  <Step title="Generate migration">
+    ```bash
+    npx drizzle-kit generate --name describe_your_change
+    ```
+
+    Review the SQL in `api/db/migrations/`.
+  </Step>
+
+  <Step title="Apply migration">
+    ```bash
+    npm run db:migrate
+    ```
+
+    If multiple `DATABASE_URL_*` targets exist, the script may prompt for which database.
+  </Step>
+
+  <Step title="Refresh ERD">
+    ```bash
+    npm run liam:build
+    ```
+  </Step>
+</Steps>
+
+## Better Auth schema
+
+After upgrading Better Auth:
+
+```bash
+npm run auth:schema:generate
+```
+
+Compare output with `api/db/schema/better-auth/` and create a migration if needed.
+
+## Rollback
+
+`npm run db:drop` interactively selects a migration to drop — use with caution on shared databases.
+
+## Related
+
+<Card title="Drizzle reference" icon="database" href="/en/reference/database/drizzle">
+  Full ORM command reference.
+</Card>

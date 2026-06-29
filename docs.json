@@ -1,34 +1,143 @@
 {
 	"$schema": "https://mintlify.com/docs.json",
 	"theme": "mint",
-	"name": "Mintlify Starter Kit",
+	"name": "Sawa Docs",
 	"colors": {
 		"primary": "#16A34A",
 		"light": "#07C983",
 		"dark": "#15803D"
 	},
 	"favicon": "/favicon.svg",
+	"logo": {
+		"light": "/logo/light.svg",
+		"dark": "/logo/dark.svg"
+	},
 	"navigation": {
 		"languages": [
 			{
 				"language": "en",
-				"anchors": [
+				"tabs": [
 					{
-						"anchor": "Getting Started",
-						"pages": ["index", "quickstart"]
+						"tab": "Documentation",
+						"icon": "book-open",
+						"groups": [
+							{
+								"group": "Start here",
+								"icon": "rocket",
+								"pages": ["en/index", "en/tutorials/dev-onboarding"]
+							},
+							{
+								"group": "Tutorials",
+								"icon": "graduation-cap",
+								"pages": [
+									"en/tutorials/first-authenticated-request",
+									"en/tutorials/add-your-first-endpoint"
+								]
+							},
+							{
+								"group": "Architecture",
+								"icon": "sitemap",
+								"pages": [
+									"en/explanation/product-overview",
+									"en/explanation/system-architecture",
+									"en/explanation/backend-layers",
+									"en/explanation/auth-architecture",
+									"en/explanation/data-model-overview",
+									"en/explanation/api-contract-architecture",
+									"en/explanation/events-domain",
+									"en/explanation/deployment-topology"
+								]
+							},
+							{
+								"group": "How-to guides",
+								"icon": "wrench",
+								"pages": [
+									"en/how-to/local-setup",
+									"en/how-to/run-migrations",
+									"en/how-to/add-a-route",
+									"en/how-to/add-openapi-docs",
+									"en/how-to/manage-media-uploads",
+									"en/how-to/contract-api-for-mobile",
+									"en/how-to/debug-auth",
+									"en/how-to/deploy"
+								]
+							},
+							{
+								"group": "Reference",
+								"icon": "book",
+								"pages": [
+									"en/reference/configuration",
+									"en/reference/server",
+									"en/reference/auth-endpoints",
+									"en/reference/npm-scripts",
+									"en/reference/error-codes",
+									{
+										"group": "Database",
+										"pages": [
+											"en/reference/database/schema",
+											"en/reference/database/drizzle",
+											"en/reference/database/tables"
+										]
+									},
+									{
+										"group": "Domains",
+										"pages": [
+											"en/reference/domains/users",
+											"en/reference/domains/places",
+											"en/reference/domains/places-media",
+											"en/reference/domains/places-reviews",
+											"en/reference/domains/places-reactions",
+											"en/reference/domains/activities",
+											"en/reference/domains/plactivities",
+											"en/reference/domains/categories",
+											"en/reference/domains/companionships",
+											"en/reference/domains/events"
+										]
+									}
+								]
+							}
+						]
 					},
 					{
-						"anchor": "API Reference",
-						"openapi": "https://petstore3.swagger.io/api/v3/openapi.json"
+						"tab": "API Reference",
+						"icon": "square-terminal",
+						"openapi": "openAPI.json"
+					},
+					{
+						"tab": "Mobile",
+						"icon": "mobile",
+						"groups": [
+							{
+								"group": "Mobile development",
+								"pages": [
+									"en/mobile/index",
+									"en/mobile/api-contract",
+									"en/mobile/auth",
+									"en/mobile/codegen"
+								]
+							}
+						]
 					}
 				]
 			},
 			{
 				"language": "ar",
-				"pages": [
+				"tabs": [
 					{
-						"group": "البدء",
-						"pages": ["ar/index", "ar/quickstart"]
+						"tab": "التوثيق",
+						"icon": "book-open",
+						"groups": [
+							{
+								"group": "ابدأ هنا",
+								"icon": "rocket",
+								"pages": ["ar/index", "ar/tutorials/dev-onboarding"]
+							},
+							{
+								"group": "البنية",
+								"icon": "sitemap",
+								"pages": ["ar/explanation/system-architecture"]
+							}
+						]
 					}
 				]
 			}
@@ -36,52 +145,39 @@
 		"global": {
 			"anchors": [
 				{
-					"anchor": "Documentation",
-					"href": "https://mintlify.com/docs",
-					"icon": "book-open-cover"
-				},
-				{
-					"anchor": "Blog",
-					"href": "https://mintlify.com/blog",
-					"icon": "newspaper"
+					"anchor": "GitHub",
+					"href": "https://github.com/SawaApp/SawaApp",
+					"icon": "github"
 				}
 			]
 		}
 	},
-	"logo": {
-		"light": "/logo/light.svg",
-		"dark": "/logo/dark.svg"
-	},
 	"navbar": {
 		"links": [
 			{
-				"label": "Support",
-				"href": "mailto:hi@mintlify.com"
+				"label": "API (Scalar)",
+				"href": "https://sawa-app-de848.ondigitalocean.app/docs"
 			}
 		],
 		"primary": {
 			"type": "button",
-			"label": "Dashboard",
-			"href": "https://app.mintlify.com"
+			"label": "Get started",
+			"href": "/en/tutorials/dev-onboarding"
 		}
 	},
 	"contextual": {
-		"options": [
-			"copy",
-			"view",
-			"chatgpt",
-			"claude",
-			"perplexity",
-			"mcp",
-			"cursor",
-			"vscode"
-		]
+		"options": ["copy", "view", "cursor", "download-pdf"]
 	},
 	"footer": {
 		"socials": {
-			"x": "https://x.com/mintlify",
-			"github": "https://github.com/mintlify",
-			"linkedin": "https://linkedin.com/company/mintlify"
+			"github": "https://github.com/SawaApp/SawaApp"
 		}
-	}
+	},
+	"redirects": [
+		{ "source": "/overview/getting-started", "destination": "/en/tutorials/dev-onboarding" },
+		{ "source": "/overview/architecture", "destination": "/en/explanation/system-architecture" },
+		{ "source": "/database/schema", "destination": "/en/reference/database/schema" },
+		{ "source": "/models/users", "destination": "/en/reference/domains/users" },
+		{ "source": "/diagrams/contract/dto-openapi-architecture", "destination": "/en/explanation/api-contract-architecture" }
+	]
 }

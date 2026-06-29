@@ -1,0 +1,101 @@
+---
+title: "Developer onboarding"
+description: "Day-one setup: clone SawaApp, configure environment, run migrations, and verify the API."
+---
+
+This tutorial walks a new developer through local setup in about 30–45 minutes. By the end you will have a running API, interactive docs, and a verified authenticated request.
+
+## Prerequisites
+
+- **Node.js** 20+ and npm
+- **Git**
+- **PostgreSQL**, **Redis**, and **S3-compatible storage** (MinIO locally, or cloud credentials)
+- A code editor (VS Code / Cursor recommended)
+
+## Steps
+
+<Steps>
+  <Step title="Clone the backend">
+    ```bash
+    git clone https://github.com/SawaApp/SawaApp
+    cd SawaApp
+    npm install
+    ```
+  </Step>
+
+  <Step title="Configure environment">
+    Copy the template and fill in required values:
+
+    ```bash
+    cp .env.template .env
+    ```
+
+    Minimum required variables:
+
+    | Variable | Purpose |
+    |----------|---------|
+    | `BETTER_AUTH_SECRET` | ≥32 characters; session signing |
+    | `BETTER_AUTH_URL` | Public API URL (use `http://localhost:8080` for local-only) |
+    | `DATABASE_URL` | PostgreSQL connection string |
+    | `REDIS_URL` | Redis connection string |
+    | `LIAM_SESSION_SECRET` | Liam ERD admin session |
+    | `LIAM_PASSWORD` | Liam ERD admin password |
+
+    See [Configuration](/en/reference/configuration) for the full list.
+  </Step>
+
+  <Step title="Run database migrations">
+    ```bash
+    npm run db:migrate
+    ```
+
+    Optionally seed reference data:
+
+    ```bash
+    npm run db:seed:yes
+    ```
+  </Step>
+
+  <Step title="Start the development server">
+    ```bash
+    npm run dev
+    ```
+
+    The API listens on `http://localhost:8080` (auto-increments if the port is busy).
+  </Step>
+
+  <Step title="Verify health and docs">
+    - Health: `GET http://localhost:8080/health` → `{ "message": "OK" }`
+    - Scalar UI: [http://localhost:8080/docs](http://localhost:8080/docs)
+    - OpenAPI JSON: `http://localhost:8080/docs.json`
+  </Step>
+
+  <Step title="Run the auth smoke test">
+    ```bash
+    node scripts/e2e-auth-smoke.mjs
+    ```
+
+    This signs up a test user, calls a protected route with a bearer session token, signs out, and confirms 401 on retry. See [Debug auth](/en/how-to/debug-auth) for details.
+  </Step>
+
+  <Step title="Make your first authenticated request">
+    Continue in [First authenticated request](/en/tutorials/first-authenticated-request) to call `GET /places` with a bearer token via curl or Scalar.
+  </Step>
+</Steps>
+
+## Where to go next
+
+<CardGroup cols={2}>
+  <Card title="System architecture" icon="sitemap" href="/en/explanation/system-architecture">
+    Understand the full stack and request flow.
+  </Card>
+  <Card title="Add your first endpoint" icon="code" href="/en/tutorials/add-your-first-endpoint">
+    Schema → model → controller → route → OpenAPI.
+  </Card>
+  <Card title="API Reference" icon="square-terminal" href="/en/reference/domains/places">
+    Browse all documented endpoints.
+  </Card>
+  <Card title="Auth architecture" icon="lock" href="/en/explanation/auth-architecture">
+    Better Auth, bearer sessions, and public routes.
+  </Card>
+</CardGroup>

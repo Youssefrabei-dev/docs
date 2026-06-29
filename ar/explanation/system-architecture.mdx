@@ -1,0 +1,61 @@
+---
+title: "البنية التقنية للنظام"
+description: "بنية سوا الكاملة: العملاء، Express، المصادقة، وقواعد البيانات."
+---
+
+نظرة عامة على بنية **SawaApp** — للتفاصيل الكاملة بالإنجليزية راجع [System architecture](/en/explanation/system-architecture).
+
+## مخطط النظام
+
+```mermaid
+flowchart TB
+    subgraph Clients
+        WEB[ويب]
+        MOBILE[تطبيق Expo]
+        CI[CI للموبايل]
+    end
+
+    subgraph Express
+        CORS[cors]
+        AUTH_H["/api/auth/* Better Auth"]
+        JSON[express.json]
+        CONTRACT["/contract/*"]
+        GATE[authenticateUnlessPublic]
+        ROUTES[مسارات النطاقات]
+    end
+
+    subgraph Data
+        PG[(PostgreSQL)]
+        REDIS[(Redis)]
+        S3[(S3)]
+    end
+
+    WEB & MOBILE --> CORS --> AUTH_H & JSON
+    CI --> CONTRACT
+    JSON --> GATE --> ROUTES
+    AUTH_H & ROUTES --> PG
+    ROUTES --> S3
+```
+
+## التقنيات
+
+| الطبقة | التقنية |
+|--------|---------|
+| الخادم | Node.js + Express + TypeScript |
+| المصادقة | Better Auth |
+| قاعدة البيانات | Drizzle ORM + PostgreSQL |
+| التخزين | S3 / MinIO |
+| التوثيق | OpenAPI + Scalar + Mintlify |
+
+## البيئات
+
+| البيئة | الرابط |
+|--------|--------|
+| محلي | `http://localhost:8080` |
+| تجريبي | `https://sawa-app-dev.up.railway.app` |
+| إنتاج | `https://sawa-app-de848.ondigitalocean.app` |
+
+<CardGroup cols={2}>
+  <Card title="English architecture" href="/en/explanation/system-architecture">Full documentation</Card>
+  <Card title="المصادقة" href="/en/explanation/auth-architecture">Auth architecture</Card>
+</CardGroup>

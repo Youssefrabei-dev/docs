@@ -1,0 +1,37 @@
+---
+title: "Manage media uploads"
+description: "Upload images to places via multipart requests and S3 storage."
+---
+
+Place images flow through multipart HTTP → Multer → S3-compatible storage.
+
+## Upload flow
+
+```mermaid
+flowchart LR
+    Client["Client multipart/form-data"] --> MW["mediaHandler middleware"]
+    MW --> Multer["multer-s3"]
+    Multer --> S3["S3 / MinIO bucket"]
+    Multer --> DB["places_media row"]
+    DB --> Response["JSON with URL / key"]
+```
+
+## Create place with media
+
+`POST /places` accepts `multipart/form-data` with place fields and image files.
+
+## Add media to existing place
+
+`POST /places/:placeID/media` with file field(s).
+
+## Configuration
+
+S3 credentials from env — see [Configuration](/en/reference/configuration) (`MINIO_*_DEV` or DigitalOcean Spaces vars).
+
+## Presigned URLs
+
+The API may return presigned URLs for clients to display images without public bucket ACLs. Implementation in `api/utils/` and media models.
+
+## OpenAPI
+
+Multipart operations are documented in OpenAPI but may require manual `FormData` on mobile — see [Mobile API contract](/en/mobile/api-contract).

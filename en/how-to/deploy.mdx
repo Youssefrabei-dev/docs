@@ -1,0 +1,62 @@
+---
+title: "Deploy"
+description: "Deploy SawaApp to staging and production environments."
+---
+
+## Environments
+
+| Environment | Platform | URL |
+|-------------|----------|-----|
+| Staging | Railway | `https://sawa-app-dev.up.railway.app` |
+| Production | DigitalOcean App Platform | `https://sawa-app-de848.ondigitalocean.app` |
+
+See [Deployment topology](/en/explanation/deployment-topology).
+
+## Build
+
+```bash
+npm run build
+npm start
+```
+
+Build compiles TypeScript and generates Liam ERD static assets.
+
+## Production checklist
+
+- [ ] `NODE_ENV=production`
+- [ ] `BETTER_AUTH_SECRET` — strong, ≥32 chars
+- [ ] `BETTER_AUTH_URL` — public HTTPS API URL
+- [ ] `DATABASE_URL` — production PostgreSQL
+- [ ] `LIAM_SESSION_SECRET` — required (boot fails without it)
+- [ ] `CONTRACT_API_KEY` — set for mobile/CI contract access
+- [ ] `CLIENT_URL` — comma-separated CORS origins
+- [ ] S3 / Spaces credentials for media
+- [ ] `RESEND_API_KEY` for email
+
+## Database
+
+Run migrations against production:
+
+```bash
+npm run db:migrate
+```
+
+Use the interactive picker carefully — confirm the target database.
+
+## Docs sync
+
+After deploying API changes:
+
+```bash
+npm run docs:export:mintlify
+```
+
+Publish updated Mintlify docs so API Reference stays current.
+
+## Health check
+
+Configure platform health checks against `GET /health`.
+
+## Mintlify docs
+
+`MintlifyDocs` is a separate repository (`Mintlify-Docs` on GitHub). Deploy via Mintlify dashboard or connected git branch.

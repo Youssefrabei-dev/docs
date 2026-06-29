@@ -1,0 +1,61 @@
+---
+title: "npm scripts"
+description: "SawaApp package.json scripts reference."
+---
+
+Run all scripts from the `SawaApp/` directory.
+
+## Development
+
+| Script | Action |
+|--------|--------|
+| `npm run dev` | Hot-reload server (`nodemon` + `tsx`) |
+| `npm run dev:full` | Dev server + schema watcher for Liam ERD |
+| `npm run watch` | TypeScript watch compile |
+
+## Build and production
+
+| Script | Action |
+|--------|--------|
+| `npm run build` | Compile TypeScript + build Liam ERD |
+| `npm start` | Run `build/api/server.js` |
+
+## Database
+
+| Script | Action |
+|--------|--------|
+| `npm run db:migrate` | Apply pending migrations |
+| `npm run db:generate` | Generate migration from schema diff |
+| `npm run db:push` | Generate + migrate in one step |
+| `npm run db:seed` | Seed database (interactive confirm) |
+| `npm run db:seed:yes` | Seed without prompt |
+| `npm run db:drop` | Drop migration (interactive) |
+| `npm run studio` | Drizzle Studio GUI |
+| `npm run db:backup` | Backup database |
+| `npm run db:dbml` | Export DBML schema file |
+
+## Auth
+
+| Script | Action |
+|--------|--------|
+| `npm run auth:schema:generate` | Regenerate Better Auth Drizzle schema via CLI |
+
+## Documentation
+
+| Script | Action |
+|--------|--------|
+| `npm run docs:export` | Write OpenAPI to `openapi/openapi.json` |
+| `npm run docs:export:mintlify` | Write OpenAPI to `../MintlifyDocs/openAPI.json` |
+
+## Liam ERD
+
+| Script | Action |
+|--------|--------|
+| `npm run liam:build` | Build ERD static site from Drizzle schema |
+| `npm run liam:start` | Serve `liam-dist/` locally |
+
+## Named migrations
+
+```bash
+npx drizzle-kit generate --name descriptive_migration_name
+```

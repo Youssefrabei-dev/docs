@@ -1,0 +1,66 @@
+---
+title: "Local setup"
+description: "Detailed local development environment setup for SawaApp."
+---
+
+This guide expands on [Developer onboarding](/en/tutorials/dev-onboarding) with infrastructure details.
+
+## Infrastructure options
+
+You need PostgreSQL, Redis, and S3-compatible storage running locally or via cloud credentials.
+
+### Option A: Docker services
+
+Run PostgreSQL, Redis, and MinIO via Docker (adjust ports to match your `.env`).
+
+### Option B: Cloud dev databases
+
+Point `DATABASE_URL` and `REDIS_URL` at managed dev instances.
+
+## Environment file
+
+```bash
+cp .env.template .env
+```
+
+Required for a minimal boot:
+
+- `BETTER_AUTH_SECRET` — at least 32 random characters
+- `BETTER_AUTH_URL` — `http://localhost:8080` for local-only
+- `DATABASE_URL` — PostgreSQL connection string
+- `REDIS_URL` — Redis connection string
+- `LIAM_SESSION_SECRET` and `LIAM_PASSWORD` — any dev values
+- `MIN_AGE`, `MAX_AGE` — e.g. `16` and `100`
+- MinIO / S3 vars for media uploads
+
+Full list: [Configuration](/en/reference/configuration).
+
+## Install and migrate
+
+```bash
+npm install
+npm run db:migrate
+npm run db:seed:yes   # optional
+```
+
+## Run
+
+```bash
+npm run dev          # API only
+npm run dev:full     # API + Liam ERD schema watcher
+```
+
+## Verify
+
+| Check | URL / command |
+|-------|---------------|
+| Health | `curl http://localhost:8080/health` |
+| Scalar | http://localhost:8080/docs |
+| Auth smoke | `node scripts/e2e-auth-smoke.mjs` |
+| ERD | http://localhost:8080/liam |
+
+## Mobile on same WiFi
+
+The server logs LAN IPs on startup — use `http://<LAN-IP>:8080` from a physical device.
+
+Set `BETTER_AUTH_URL` to the URL your mobile client actually hits if testing OAuth.

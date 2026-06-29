@@ -1,0 +1,53 @@
+---
+title: "Contract API for mobile"
+description: "How mobile and CI fetch the filtered OpenAPI contract."
+---
+
+The contract API exposes a **filtered OpenAPI document** for SawaMobile and CI — not the full internal spec.
+
+## Endpoints
+
+| Method | Path | Auth |
+|--------|------|------|
+| GET | `/contract/version` | `X-Sawa-Contract-Key` |
+| GET | `/contract/openapi` | `X-Sawa-Contract-Key` |
+
+## Headers
+
+```
+X-Sawa-Contract-Key: <CONTRACT_API_KEY>
+```
+
+Uses timing-safe comparison. Returns **503** if `CONTRACT_API_KEY` is unset in production.
+
+## Response envelope
+
+`/contract/openapi` returns:
+
+```json
+{
+  "version": "2.0.0",
+  "specHash": "...",
+  "openapi": { ... }
+}
+```
+
+`version` comes from `API_CONTRACT_VERSION`. Mobile compares this before codegen.
+
+## Backend implementation
+
+- `api/contract/buildContract.ts` — filters mobile-excluded paths, adds hash
+- `api/contract/routes.ts` — HTTP handlers
+- Mounted **before** session middleware in `server.ts`
+
+## Export for Mintlify
+
+Mintlify uses the **full** spec (not contract-filtered):
+
+```bash
+npm run docs:export:mintlify
+```
+
+## Mobile workflow
+
+See [Mobile API contract](/en/mobile/api-contract) and [Codegen](/en/mobile/codegen).

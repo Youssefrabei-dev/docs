@@ -1,0 +1,66 @@
+---
+title: "Database schema"
+description: "Drizzle ORM schema patterns, Zod validation, and standard table fields."
+---
+
+Sawa uses **Drizzle ORM** with **drizzle-zod** for type-safe schemas and validation. Table definitions live in `api/db/schema/`.
+
+## Standard table pattern
+
+Most domain tables include:
+
+| Column | Type | Purpose |
+|--------|------|---------|
+| `id` | serial PK | Auto-increment identity |
+| `isDeleted` | boolean | Soft delete (default `false`) |
+| `createdAt` | integer (epoch) | Creation timestamp |
+| `updatedAt` | integer (epoch) | Last update timestamp |
+
+## Schema file pattern
+
+```typescript
+// 1. pgTable definition in api/db/schema/
+export const placesTable = pgTable("places", { ... });
+
+// 2. Zod schemas via drizzle-zod
+export const insertPlaceSchema = createInsertSchema(placesTable);
+export const selectPlaceSchema = createSelectSchema(placesTable);
+```
+
+## Public API DTOs
+
+Database schemas are **not** exposed directly to clients. Public shapes are derived in `api/docs/dtos/`:
+
+```typescript
+export const placeDtoSchema = selectPlaceSchema
+  .omit({ isDeleted: true, createdBy: true })
+  .openapi("PlaceDto");
+```
+
+## Migrations
+
+- SQL migrations: `api/db/migrations/`
+- Generate: `npm run db:generate`
+- Apply: `npm run db:migrate`
+- Combined: `npm run db:push`
+
+## Better Auth tables
+
+Identity tables in `api/db/schema/better-auth/`:
+
+- `session` — active device sessions
+- `account` — passwords and OAuth tokens
+- `verification` — email verify / OAuth state
+
+Passwords are stored in `account`, not `users`.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Drizzle reference" icon="database" href="/en/reference/database/drizzle">
+    ORM commands and workflow.
+  </Card>
+  <Card title="Tables index" icon="table" href="/en/reference/database/tables">
+    All tables by domain.
+  </Card>
+</CardGroup>

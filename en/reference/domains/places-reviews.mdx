@@ -1,0 +1,26 @@
+---
+title: "Places reviews"
+description: "User text reviews for places."
+---
+
+Users can leave text reviews on places. Reviews are linked to both `userID` and `placeID`.
+
+## Table: `places_reviews`
+
+Key fields: `placeID`, `userID`, `reviewText`, standard audit fields.
+
+## API endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/places/:placeID/reviews` | Reviews for a place |
+| POST | `/places/:placeID/reviews` | Create review |
+| GET | `/places-reviews/:id` | Get by ID |
+| PUT | `/places-reviews/:id` | Update |
+| DELETE | `/places-reviews/:id` | Delete |
+
+OpenAPI: **API Reference** tab → Places Reviews tag.
+
+<Note>
+  Review media routes may be partially disabled in runtime — check `api/routes/` for current status.
+</Note>

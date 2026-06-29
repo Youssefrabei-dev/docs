@@ -1,0 +1,70 @@
+---
+title: "Auth endpoints"
+description: "Better Auth HTTP endpoints — sign-up, sign-in, OAuth, session, sign-out."
+---
+
+Better Auth owns all authentication HTTP endpoints under `/api/auth/*`. These are **not** in the auto-generated OpenAPI business spec — use this reference and [Better Auth docs](https://www.better-auth.com/docs).
+
+## Email and password
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/auth/sign-up/email` | Register with email, password, profile fields |
+| POST | `/api/auth/sign-in/email` | Sign in with email and password |
+| POST | `/api/auth/sign-out` | End session (send bearer token) |
+
+### Sign-up body (example)
+
+```json
+{
+  "email": "user@example.com",
+  "password": "SecurePass1!",
+  "name": "Display Name",
+  "username": "username",
+  "dob": "2000-01-01",
+  "genderID": 1
+}
+```
+
+## Session
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/auth/get-session` | Current session (bearer or cookie) |
+
+## OAuth
+
+Google OAuth is configured via `socialProviders.google` in `api/auth/auth.config.ts`.
+
+- Requires `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`
+- `mapProfileToUser` fills Sawa fields (`username`, `dob`, `genderID`)
+- Expo plugin supports mobile deep links
+
+## Authorization header
+
+Protected business routes expect:
+
+```
+Authorization: Bearer <sessionToken>
+```
+
+The token is a **Better Auth session token**, not a legacy JWT.
+
+## Plugins
+
+| Plugin | Purpose |
+|--------|---------|
+| `expo()` | React Native / Expo client support |
+| `bearer()` | Bearer header sessions for API testing |
+| `oneTap()` | Google One Tap |
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Auth architecture" icon="lock" href="/en/explanation/auth-architecture">
+    Middleware order and trust boundaries.
+  </Card>
+  <Card title="Debug auth" icon="bug" href="/en/how-to/debug-auth">
+    Smoke test and troubleshooting.
+  </Card>
+</CardGroup>

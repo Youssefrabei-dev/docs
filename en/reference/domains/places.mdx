@@ -1,0 +1,35 @@
+---
+title: "Places"
+description: "Venues, geo data, pricing, and place CRUD endpoints."
+---
+
+Places are physical venues users discover and attach to events. Media, reviews, and reactions are nested under places.
+
+## Table: `places`
+
+Key fields: `name`, `description`, `categoryID`, geo coordinates, pricing, `createdBy`, soft-delete via `isDeleted`.
+
+## API endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/places` | List places |
+| POST | `/places` | Create (multipart for images) |
+| GET | `/places/:id` | Get by ID |
+| PUT | `/places/:id` | Update |
+| DELETE | `/places/:id` | Soft delete |
+
+Nested routes:
+
+- `GET/POST /places/:placeID/reviews`
+- `GET/POST /places/:placeID/media`
+
+OpenAPI: **API Reference** tab → Places tag.
+
+## Related domains
+
+<CardGroup cols={3}>
+  <Card title="Places media" href="/en/reference/domains/places-media">Images</Card>
+  <Card title="Places reviews" href="/en/reference/domains/places-reviews">Reviews</Card>
+  <Card title="Places reactions" href="/en/reference/domains/places-reactions">Reactions</Card>
+</CardGroup>

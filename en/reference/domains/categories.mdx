@@ -1,0 +1,25 @@
+---
+title: "Categories"
+description: "Taxonomy for places and activities."
+---
+
+Categories organize places and activities. `category_types` provides the type dimension.
+
+## Tables
+
+| Table | Purpose |
+|-------|---------|
+| `categories` | Category records |
+| `category_types` | Type lookup |
+
+## API endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/categories` | List categories |
+| POST | `/categories` | Create |
+| GET | `/categories/:id` | Get by ID |
+| PUT | `/categories/:id` | Update |
+| DELETE | `/categories/:id` | Soft delete |
+
+OpenAPI: **API Reference** tab → Categories tag.

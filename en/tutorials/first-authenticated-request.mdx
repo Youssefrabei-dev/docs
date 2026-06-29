@@ -1,0 +1,68 @@
+---
+title: "First authenticated request"
+description: "Sign up, obtain a bearer session token, and call a protected API endpoint."
+---
+
+After [Developer onboarding](/en/tutorials/dev-onboarding), this tutorial shows how authentication works in practice using Scalar or curl.
+
+## Sign up
+
+```bash
+curl -X POST http://localhost:8080/api/auth/sign-up/email \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "dev@example.com",
+    "password": "SecurePass1!",
+    "name": "Dev User",
+    "username": "devuser",
+    "dob": "2000-01-01",
+    "genderID": 1
+  }'
+```
+
+Better Auth returns a session. Copy the **session token** from the response (or use the `Set-Cookie` header on web clients).
+
+## Sign in (existing user)
+
+```bash
+curl -X POST http://localhost:8080/api/auth/sign-in/email \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "dev@example.com",
+    "password": "SecurePass1!"
+  }'
+```
+
+## Call a protected route
+
+```bash
+curl http://localhost:8080/places \
+  -H "Authorization: Bearer YOUR_SESSION_TOKEN"
+```
+
+A successful response returns places data in the standard `{ status, data }` wrapper.
+
+## Using Scalar
+
+1. Open [http://localhost:8080/docs](http://localhost:8080/docs)
+2. Click **Authorize** and enter `Bearer YOUR_SESSION_TOKEN`
+3. Try `GET /places` or `GET /users/latest`
+
+<Warning>
+  Use a **session token** from Better Auth, not a legacy JWT. Auth endpoints live under `/api/auth/*` — see [Auth endpoints](/en/reference/auth-endpoints).
+</Warning>
+
+## Verify sign-out
+
+```bash
+curl -X POST http://localhost:8080/api/auth/sign-out \
+  -H "Authorization: Bearer YOUR_SESSION_TOKEN"
+```
+
+Retrying `GET /places` without a valid token should return **401 Unauthorized**.
+
+## Next steps
+
+<Card title="Add your first endpoint" icon="code" href="/en/tutorials/add-your-first-endpoint">
+  Learn the full feature development flow.
+</Card>

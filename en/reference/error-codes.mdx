@@ -1,0 +1,60 @@
+---
+title: "Error codes"
+description: "Standard API error response format and common error types."
+---
+
+SawaApp uses `createCommonError()` from `api/utils/error/commonErrors.ts` to produce consistent error responses.
+
+## Error response shape
+
+```json
+{
+  "status": "error",
+  "error": {
+    "errorCode": "NOT_FOUND",
+    "message": "Resource not found",
+    "path": "/places/999",
+    "details": "Optional details",
+    "suggestion": "Check the ID and try again",
+    "docs": "Optional doc link"
+  }
+}
+```
+
+## CustomError fields
+
+| Field | Description |
+|-------|-------------|
+| `errorCode` | Machine-readable code from `errorMappings` |
+| `message` | Human-readable message |
+| `path` | Request path where error occurred |
+| `statusCode` | HTTP status (400, 401, 404, 500, etc.) |
+| `details` | Optional extra context |
+| `suggestion` | Optional remediation hint |
+| `docs` | Optional link to documentation |
+
+## Common status phrases
+
+Controllers use `StatusPhrases` enum values passed to `createCommonError`:
+
+| Type | Typical HTTP | When used |
+|------|--------------|-----------|
+| `BAD_REQUEST` | 400 | Invalid input, missing fields |
+| `UNAUTHORIZED` | 401 | Missing or invalid session |
+| `FORBIDDEN` | 403 | Authenticated but not allowed |
+| `NOT_FOUND` | 404 | Resource does not exist |
+| `CONFLICT` | 409 | Duplicate or state conflict |
+| `INTERNAL_SERVER_ERROR` | 500 | Unexpected server error |
+
+Exact mappings live in `api/utils/error/errorMapping.ts`.
+
+## Usage in controllers
+
+```typescript
+throw createCommonError(StatusPhrases.NOT_FOUND, {
+  path: req.path,
+  details: `Place ${id} not found`,
+});
+```
+
+The `errorHandler` middleware catches `CustomError` instances and formats the JSON response.

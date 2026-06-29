@@ -1,0 +1,56 @@
+---
+title: "Events"
+description: "Collaborative events API — steps, votes, attendees, itinerary."
+---
+
+Events are the largest API surface. See [Events domain](/en/explanation/events-domain) for conceptual overview.
+
+## Tables
+
+| Table | Purpose |
+|-------|---------|
+| `events` | Event container |
+| `event_steps` | Itinerary steps (nestable) |
+| `event_attendees` | RSVP and roles |
+| `event_step_votes` | Votes on steps |
+| `event_step_droppers` | Drop votes |
+| `event_step_users` | Step assignments |
+| `event_step_comments` | Step comments |
+
+## Core endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET/POST | `/events` | List / create |
+| GET/PUT/DELETE | `/events/:id` | CRUD |
+| POST | `/events/:id/publish` | Publish draft |
+
+## Steps
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET/POST | `/events/:id/steps` | List / add steps |
+| PUT/DELETE | `/events/:id/steps/:stepID` | Update / remove |
+| POST | `/events/:id/steps/:stepID/approve` | Approve step |
+| POST | `/events/:id/steps/:stepID/finalize` | Finalize step |
+| POST | `/events/:id/steps/:stepID/drop` | Drop step |
+| GET/POST | `/events/:id/steps/:stepID/votes` | Votes |
+
+## Attendees
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET/POST | `/events/:id/attendees` | List / add |
+| POST | `/events/:id/attendees/rsvp` | RSVP |
+| POST | `/events/:id/attendees/invite` | Invite user |
+
+## Workflow
+
+| Method | Path | Description |
+|--------|------|-------------|
+| PUT | `/events/:id/voting-preferences` | Voting settings |
+| POST | `/events/:id/check-thresholds` | Check vote thresholds |
+| POST | `/events/:id/close-suggestion-phase` | End suggestions |
+| POST | `/events/:id/finalize-itinerary` | Lock itinerary |
+
+OpenAPI: **API Reference** tab → Events tag (full path list).

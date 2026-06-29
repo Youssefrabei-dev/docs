@@ -1,0 +1,56 @@
+---
+title: "إعداد بيئة المطور"
+description: "اليوم الأول: استنساخ SawaApp وإعداد البيئة وتشغيل الواجهة البرمجية."
+---
+
+هذا الدليل يوضح إعداد بيئة التطوير المحلية لـ SawaApp. للنسخة الكاملة بالإنجليزية راجع [Developer onboarding](/en/tutorials/dev-onboarding).
+
+## المتطلبات
+
+- **Node.js** 20+ و npm
+- **Git**
+- **PostgreSQL** و **Redis** و تخزين متوافق مع S3
+
+## الخطوات
+
+<Steps>
+  <Step title="استنساخ المشروع">
+    ```bash
+    git clone https://github.com/SawaApp/SawaApp
+    cd SawaApp
+    npm install
+    ```
+  </Step>
+
+  <Step title="إعداد البيئة">
+    ```bash
+    cp .env.template .env
+    ```
+
+    أهم المتغيرات: `BETTER_AUTH_SECRET`، `BETTER_AUTH_URL`، `DATABASE_URL`، `REDIS_URL`.
+  </Step>
+
+  <Step title="ترحيل قاعدة البيانات">
+    ```bash
+    npm run db:migrate
+    ```
+  </Step>
+
+  <Step title="تشغيل الخادم">
+    ```bash
+    npm run dev
+    ```
+
+    الواجهة البرمجية على `http://localhost:8080`
+  </Step>
+
+  <Step title="التحقق">
+    - الصحة: `GET /health`
+    - التوثيق التفاعلي: `http://localhost:8080/docs`
+    - اختبار المصادقة: `node scripts/e2e-auth-smoke.mjs`
+  </Step>
+</Steps>
+
+<Card title="التوثيق الكامل بالإنجليزية" icon="book" href="/en/tutorials/dev-onboarding">
+  Full onboarding tutorial with auth and first API call.
+</Card>

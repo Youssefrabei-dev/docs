@@ -1,0 +1,66 @@
+---
+title: "Add OpenAPI docs"
+description: "Register DTOs and paths for Scalar, Mintlify, and mobile contract."
+---
+
+OpenAPI documentation is separate from Express routes but must stay in sync.
+
+## 1. Define or extend a DTO
+
+In `api/docs/dtos/<domain>.ts`:
+
+```typescript
+import { selectPlaceSchema } from "../../db/schema/places";
+
+export const placeDtoSchema = selectPlaceSchema
+  .omit({ isDeleted: true })
+  .openapi("PlaceDto");
+```
+
+## 2. Register the path
+
+In `api/docs/<domain>.ts`:
+
+```typescript
+import { docsRegistry } from "./registry";
+import { placeDtoSchema } from "./dtos/places";
+
+docsRegistry.registerPath({
+  method: "get",
+  path: "/places",
+  tags: ["Places"],
+  security: [{ bearerAuth: [] }],
+  responses: {
+    200: { description: "List of places", content: { ... } },
+  },
+});
+```
+
+`registry.ts` auto-imports all `api/docs/*.ts` files (except `dtos/`).
+
+## 3. Mobile contract exclusion
+
+Routes internal to the backend only can be excluded:
+
+```typescript
+import { excludeFromMobileContract } from "./routeFlags";
+
+docsRegistry.registerPath({
+  ...excludeFromMobileContract,
+  method: "get",
+  path: "/internal/debug",
+  // ...
+});
+```
+
+## 4. Export
+
+```bash
+npm run docs:export:mintlify
+```
+
+## Breaking changes
+
+Bump `API_CONTRACT_VERSION` in `.env` when mobile must re-fetch the contract.
+
+See [API contract architecture](/en/explanation/api-contract-architecture).

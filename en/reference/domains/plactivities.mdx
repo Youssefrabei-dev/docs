@@ -1,0 +1,24 @@
+---
+title: "Plactivities"
+description: "Many-to-many links between places and activities."
+---
+
+Plactivities join **places** and **activities** — indicating which activities are available at which venue.
+
+## Table: `plactivities`
+
+Key fields: `placeID`, `activityID`, standard audit fields.
+
+## API endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/plactivities` | List all |
+| POST | `/plactivities` | Create link |
+| GET | `/plactivities/:id` | Get by ID |
+| GET | `/plactivities/place/:placeID` | By place |
+| GET | `/plactivities/activity/:activityID` | By activity |
+| PUT | `/plactivities/:id` | Update |
+| DELETE | `/plactivities/:id` | Delete |
+
+OpenAPI: **API Reference** tab → Plactivities tag.

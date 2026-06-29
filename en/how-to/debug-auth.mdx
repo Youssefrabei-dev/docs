@@ -1,0 +1,57 @@
+---
+title: "Debug auth"
+description: "Troubleshoot Better Auth sessions, bearer tokens, and common auth failures."
+---
+
+## Smoke test
+
+```bash
+node scripts/e2e-auth-smoke.mjs
+```
+
+Expected flow:
+
+1. Sign up via `/api/auth/sign-up/email`
+2. `GET /places` with bearer → **200**
+3. `POST /api/auth/sign-out`
+4. `GET /places` without token → **401**
+
+## Common issues
+
+### Auth requests hang (pending)
+
+**Cause:** `express.json()` mounted before Better Auth handler.
+
+**Fix:** In `server.ts`, ensure `app.all("/api/auth/*", toNodeHandler(auth))` runs **before** `app.use(express.json())`.
+
+### 401 on protected routes
+
+- Confirm header: `Authorization: Bearer <sessionToken>`
+- Token is a **session token**, not legacy JWT
+- Session may have expired — sign in again
+- Check `BETTER_AUTH_SECRET` has not changed (invalidates sessions)
+
+### OAuth fails on mobile
+
+- `BETTER_AUTH_URL` must match the URL the client uses
+- Add Expo origins to `trustedOrigins` in `auth.config.ts`
+- Google OAuth requires valid `GOOGLE_CLIENT_ID` / `SECRET`
+
+### CORS errors on web
+
+- `credentials: true` required for cookie sessions
+- Add origin to `CLIENT_URL` (production) or `config.clientUrls` (development)
+
+## Inspect session
+
+```bash
+curl http://localhost:8080/api/auth/get-session \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Reference
+
+<CardGroup cols={2}>
+  <Card title="Auth architecture" href="/en/explanation/auth-architecture">Architecture</Card>
+  <Card title="Auth endpoints" href="/en/reference/auth-endpoints">Endpoint list</Card>
+</CardGroup>

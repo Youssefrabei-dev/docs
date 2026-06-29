@@ -1,0 +1,32 @@
+---
+title: "Users"
+description: "User identity, profiles, and user API endpoints."
+---
+
+Users combine **Better Auth identity** with Sawa profile fields (`username`, `dob`, `genderID`, etc.). Passwords live in the `account` table, not `users`.
+
+## Tables
+
+| Table | Key fields |
+|-------|------------|
+| `users` | `id`, `email`, `username`, `displayName`, `dob`, `genderID` |
+| `account` | Credentials and OAuth (Better Auth) |
+| `session` | Active sessions (Better Auth) |
+
+## API endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/users/latest` | Recently joined users |
+| GET | `/users/search` | Search users by query |
+| POST | `/users/change-username` | Update username |
+
+Auth (sign-up, sign-in) is under `/api/auth/*` — see [Auth endpoints](/en/reference/auth-endpoints).
+
+OpenAPI: **API Reference** tab → Users tag.
+
+## Business rules
+
+- Usernames must match `USERNAME_REGEX` (default: alphanumeric, `.`, `_`)
+- Age validated against `MIN_AGE` / `MAX_AGE` env vars
+- Google OAuth maps profile fields via `databaseHooks` in auth config
