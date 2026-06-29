@@ -12,6 +12,9 @@
 		"light": "/logo/light.svg",
 		"dark": "/logo/dark.svg"
 	},
+	"icons": {
+		"library": "lucide"
+	},
 	"navigation": {
 		"languages": [
 			{
@@ -105,7 +108,7 @@
 					},
 					{
 						"tab": "Mobile",
-						"icon": "mobile",
+						"icon": "smartphone",
 						"groups": [
 							{
 								"group": "Mobile development",
@@ -115,6 +118,16 @@
 									"en/mobile/auth",
 									"en/mobile/codegen"
 								]
+							}
+						]
+					},
+					{
+						"tab": "UX",
+						"icon": "palette",
+						"groups": [
+							{
+								"group": "UX",
+								"pages": ["en/ux/index"]
 							}
 						]
 					}
@@ -160,7 +173,25 @@
 		}
 	},
 	"contextual": {
-		"options": ["copy", "view", "cursor"]
+		"options": [
+			"copy",
+			"view",
+			"cursor",
+			{
+				"title": "Open in T3 Chat",
+				"description": "Ask questions about this page in T3 Chat",
+				"icon": "message-circle",
+				"href": {
+					"base": "https://t3.chat/new",
+					"query": [
+						{
+							"key": "q",
+							"value": "Read https://youssefrabei.mintlify.site$path, I want to ask questions about it."
+						}
+					]
+				}
+			}
+		]
 	},
 	"footer": {
 		"socials": {
