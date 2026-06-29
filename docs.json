@@ -168,6 +168,8 @@
 		}
 	},
 	"redirects": [
+		{ "source": "/", "destination": "/en/index" },
+		{ "source": "/quickstart", "destination": "/en/tutorials/dev-onboarding" },
 		{
 			"source": "/overview/getting-started",
 			"destination": "/en/tutorials/dev-onboarding"
