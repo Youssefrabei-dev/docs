@@ -1,0 +1,47 @@
+---
+title: "Manage media uploads"
+description: "Add or debug multipart image uploads for places and reviews using mediaHandler and S3-compatible storage."
+keywords: ["media upload", "multer", "S3", "places media"]
+---
+
+Use this guide when adding image upload to a route or debugging storage failures.
+
+## Prerequisites
+
+- S3-compatible storage configured in `api/config.ts` (see [Environment variables](/en/reference/backend/environment) for the `MINIO_*` vs template mismatch).
+- Backend running locally with `npm run dev`.
+- Bearer session token from Better Auth (see [First authenticated request](/en/tutorials/first-authenticated-request)).
+
+<Steps>
+  <Step title="Apply mediaHandler on the route">
+    Import `mediaHandler` from `api/middlewares` and attach it before the controller:
+
+    ```typescript
+    router.post("/", mediaHandler(), createPlaceController);
+    ```
+
+    `mediaHandler` uses `multer-s3` to stream files to the configured bucket.
+  </Step>
+  <Step title="Parse fields in the controller">
+    Read multipart fields from `req.body` and the uploaded file from `req.file` (or `req.files`). Validate with Zod schemas where applicable.
+  </Step>
+  <Step title="Persist metadata">
+    Insert a `places_media` row (or review media equivalent) via the domain model. Store the S3 key, uploader, and media type — not the raw file bytes.
+  </Step>
+  <Step title="Return presigned URLs">
+    Include `presignedUrl` in the response DTO so clients can fetch the object. Match the shape in `api/docs/dtos/placesMedia.ts`.
+  </Step>
+  <Step title="Register OpenAPI">
+    Document multipart request bodies in `api/docs/*.ts`, then run `npm run docs:export:mintlify`.
+  </Step>
+</Steps>
+
+## Common mistakes
+
+- Forgetting `mediaHandler()` on the route — the controller receives no file.
+- Uploading non-image MIME types — rejected by `sanitizeFile` / `zFileSchema`.
+- Documenting storage env vars from `.env.template` without checking `api/config.ts` for the actual variable names.
+
+## Success check
+
+`POST` with `multipart/form-data` returns `200` with media metadata and a working `presignedUrl`. The endpoint appears under the **Places Media** tag in [API Reference](/api-reference).

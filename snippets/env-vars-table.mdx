@@ -1,0 +1,15 @@
+| Variable | Required locally | Purpose |
+| --- | --- | --- |
+| `PORT` | No | API port. Defaults to `8080`. |
+| `NODE_ENV` | No | Runtime mode. Defaults to `development`. |
+| `BETTER_AUTH_SECRET` | Yes | Better Auth secret (≥ 32 characters). |
+| `BETTER_AUTH_URL` | Yes | Public base URL used by Better Auth. |
+| `DATABASE_URL` | Yes | Primary PostgreSQL connection string. |
+| `REDIS_URL` | Yes | Redis connection string. |
+| `LIAM_SESSION_SECRET` | Yes | Session secret for Liam ERD. |
+| `LIAM_PASSWORD` | Yes | Password for Liam ERD admin UI. |
+| `CONTRACT_API_KEY` | For contract sync | Shared key for `/contract/*`. |
+| `API_CONTRACT_VERSION` | For contract sync | Version exposed by the contract API. |
+| `RESEND_API_KEY` | For email flows | Resend API key. |
+| `WEBSITE_URL` | Optional | Public website URL used by backend flows. |
+| `MIN_AGE` / `MAX_AGE` | Optional | User age bounds for sign-up validation. |

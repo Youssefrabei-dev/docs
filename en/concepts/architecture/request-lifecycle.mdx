@@ -1,0 +1,42 @@
+---
+title: "Request lifecycle"
+description: "How a request moves through CORS, Better Auth, JSON parsing, contract routes, authentication, app routes, and error handling."
+keywords: ["request lifecycle", "Express middleware", "Sawa API"]
+---
+
+Middleware order matters in `SawaApp/api/server.ts`.
+
+```mermaid
+flowchart TB
+  Client["Client request"] --> CORS["cors() with allowed origins"]
+  CORS --> BetterAuth["/api/auth/* toNodeHandler(auth)"]
+  BetterAuth --> Json["express.json()"]
+  Json --> Contract["/contract/* with X-Sawa-Contract-Key"]
+  Json --> Gate["authenticateUnlessPublic"]
+  Gate -->|"public path"| Public["/health, /docs*, /api/auth/*, /test/*, /pets/*, /liam*"]
+  Gate -->|"protected path"| Session["Better Auth getSession + load users row"]
+  Session --> Routes["routes -> controllers -> models"]
+  Routes --> Db["Drizzle/PostgreSQL"]
+  Public --> Response["JSON or static response"]
+  Db --> Response
+  Response --> Errors["notFound and errorHandler last"]
+```
+
+## Public routes
+
+`authenticateUnlessPublic` in `api/middlewares/authenticateUnlessPublic.middleware.ts` allows these paths without a bearer token:
+
+| Match type | Paths |
+| --- | --- |
+| Exact | `/health`, `/docs.json`, `/docs`, `/docs-new` |
+| Prefix | `/api/auth/`, `/test/`, `/pets/`, `/liam` |
+
+`/contract/*` mounts before the auth gate and uses `X-Sawa-Contract-Key` instead.
+
+## Important order
+
+- CORS runs before auth.
+- Better Auth mounts before `express.json()`.
+- `/contract/*` mounts before session middleware.
+- `authenticateUnlessPublic` globally protects app routes.
+- `notFound` and `errorHandler` run after route registration.

@@ -1,0 +1,23 @@
+---
+title: "New developer checklist"
+description: "A day-one checklist for backend developers joining Sawa."
+keywords: ["new developer", "onboarding", "backend checklist"]
+---
+
+Use this checklist to confirm your local backend is usable.
+
+- Clone `SawaApp` and install dependencies with `npm install`.
+- Create `.env` from `.env.template`.
+- Fill `DATABASE_URL`, `REDIS_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `LIAM_SESSION_SECRET`, and `LIAM_PASSWORD`.
+- Run `npm run db:migrate`.
+- Start the API with `npm run dev`.
+- Open `http://localhost:8080/health`.
+- Open `http://localhost:8080/docs`.
+- Open `http://localhost:8080/docs.json`.
+- Run the auth smoke test: `node scripts/e2e-auth-smoke.mjs` from `SawaApp`.
+- Read the request lifecycle and authentication concept pages before changing protected routes.
+- When adding or changing endpoints, update `api/docs` and run `npm run docs:export:mintlify`.
+
+<Tip>
+  Start with `/health` and `/docs.json` before testing authenticated routes. That separates environment and server issues from auth issues.
+</Tip>

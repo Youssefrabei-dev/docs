@@ -1,0 +1,43 @@
+---
+title: "Local setup"
+description: "Prepare your machine and environment before running the Sawa backend locally."
+keywords: ["local setup", "SawaApp", "environment", "PostgreSQL", "Redis"]
+---
+
+Use this page as the setup checklist before running tutorials.
+
+## Prerequisites
+
+- Node.js and npm.
+- PostgreSQL with a database URL for `DATABASE_URL`.
+- Redis with a URL for `REDIS_URL`.
+- Access to the Sawa backend repository.
+- Backend secrets for Better Auth, Liam ERD, storage, Resend, and contract sync when you need those paths.
+
+## Environment file
+
+Copy the template in `SawaApp`:
+
+```bash
+cp .env.template .env
+```
+
+Fill the required values from `SawaApp/.env.template`:
+
+<snippet file="snippets/env-vars-table.mdx" />
+
+The backend also reads additional deployment and storage variables from `SawaApp/api/config.ts`, including staging database URLs and `MINIO_*` storage names. See [Environment variables](/en/reference/backend/environment) for the full list.
+
+<Warning>
+  `SawaApp/.env.template` currently names DigitalOcean Spaces variables, while `api/config.ts` reads `MINIO_*` variables for storage. Treat that mismatch as a known follow-up until the backend config or template is aligned.
+</Warning>
+
+## First commands
+
+```bash
+npm install
+npm run db:migrate
+npm run dev
+```
+
+The API defaults to `http://localhost:8080`.

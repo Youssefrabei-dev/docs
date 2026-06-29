@@ -1,0 +1,59 @@
+---
+title: "Deploy the backend"
+description: "Deploy SawaApp to a hosted environment and keep docs and contract consumers in sync."
+keywords: ["deploy", "Railway", "production", "staging"]
+---
+
+This guide covers backend deployment surfaces. Mintlify docs deploy separately from the API.
+
+## Before you deploy
+
+- Run migrations against the target database: `npm run db:migrate`.
+- Set production env vars (see [Environment variables](/en/reference/backend/environment)).
+- In production, `LIAM_SESSION_SECRET` is required; `CONTRACT_API_KEY` should be set for mobile/CI contract access.
+
+<Warning>
+  `CONTRACT_API_KEY` missing in production logs a warning — `/contract/*` returns `503` until configured.
+</Warning>
+
+## Deployment checklist
+
+<Steps>
+  <Step title="Build the API">
+    ```bash
+    npm run build
+    npm start
+    ```
+  </Step>
+  <Step title="Verify health and docs">
+    ```bash
+    curl https://<your-host>/health
+    curl https://<your-host>/docs.json
+    ```
+  </Step>
+  <Step title="Export OpenAPI for Mintlify">
+    With the server running (or via export script against generated output):
+
+    ```bash
+    npm run docs:export:mintlify
+    ```
+
+    Commit and publish updated `MintlifyDocs/openAPI.json`.
+  </Step>
+  <Step title="Notify contract consumers">
+    If `API_CONTRACT_VERSION` or breaking DTOs changed, coordinate with mobile/CI before they run `api:fetch`.
+  </Step>
+</Steps>
+
+## Surfaces after deploy
+
+| Surface | URL pattern |
+| --- | --- |
+| Health | `/health` |
+| Scalar docs | `/docs` |
+| OpenAPI JSON | `/docs.json` |
+| Better Auth | `/api/auth/*` |
+| Contract | `/contract/openapi` (requires `X-Sawa-Contract-Key`) |
+| Liam ERD | `/liam/*` (session password) |
+
+See [Deployment topology](/en/concepts/architecture/deployment-topology) for how these fit together.

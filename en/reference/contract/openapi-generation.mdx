@@ -1,0 +1,39 @@
+---
+title: "OpenAPI generation"
+description: "How SawaApp builds the OpenAPI document from Zod DTOs and route registrations."
+keywords: ["OpenAPI", "generation", "registry", "Zod", "DTO"]
+---
+
+## Generator entry points
+
+| Output | Command or endpoint |
+| --- | --- |
+| Local OpenAPI file | `npm run docs:export` → `SawaApp/openapi/openapi.json` |
+| Mintlify copy | `npm run docs:export:mintlify` → `MintlifyDocs/openAPI.json` |
+| Runtime (public) | `GET /docs.json` |
+| Runtime (contract) | `GET /contract/openapi` with `X-Sawa-Contract-Key` |
+
+## Code layout
+
+| Path | Role |
+| --- | --- |
+| `api/docs/registry.ts` | `OpenApiGeneratorV3`, auto-loads `api/docs/*.ts` |
+| `api/docs/dtos/` | Public Zod schemas with `.openapi("Name")` |
+| `api/docs/*.ts` | Per-domain `registerPath` calls |
+| `api/docs/exportOpenAPI.ts` | CLI export script |
+| `api/contract/buildContract.ts` | Version + hash envelope for mobile |
+
+## When to regenerate
+
+Regenerate after any change to:
+
+- `registerPath` metadata (path, method, params, body, responses, tags)
+- DTO schemas in `api/docs/dtos/`
+- Global OpenAPI config in `registry.ts` (title, security schemes, servers)
+
+Do not edit `MintlifyDocs/openAPI.json` by hand.
+
+## Related
+
+- [Publish the API contract](/en/how-to/contract/publish-api-contract)
+- [OpenAPI contract strategy](/en/concepts/decisions/openapi-contract-strategy)

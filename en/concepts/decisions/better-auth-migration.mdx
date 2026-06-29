@@ -1,0 +1,30 @@
+---
+title: "Better Auth migration"
+description: "Why Sawa replaced custom JWT auth with Better Auth and what changed for developers."
+keywords: ["Better Auth", "JWT", "migration", "authentication decision"]
+---
+
+Sawa previously used a custom JWT + Redis refresh-token stack. The backend now uses [Better Auth](https://www.better-auth.com/) for all `/api/auth/*` routes. Liam ERD admin auth remains separate (`express-session`).
+
+## What changed
+
+| Concern | Before | After |
+| --- | --- | --- |
+| Sign up | `POST /auth/local/signup` | `POST /api/auth/sign-up/email` |
+| Sign in | `POST /auth/local/login` | `POST /api/auth/sign-in/email` |
+| Auth header | `Bearer <accessToken>` (JWT) | `Bearer <sessionToken>` |
+| Refresh | `POST /auth/refreshToken` + Redis | Better Auth session lifecycle |
+| Sign out | `POST /auth/signout` | `POST /api/auth/sign-out` |
+| Passwords | `users.password_hash` | `account.password` |
+| Route protection | Per-route | Global `authenticateUnlessPublic` |
+| Secrets | `JWT_SECRET` | `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` |
+
+## Implementation notes
+
+- Better Auth mounts **before** `express.json()` in `api/server.ts`.
+- Protected app routes call `getSession()` via `isAuthenticated` middleware.
+- Google OAuth and the Expo plugin are configured in `api/auth/auth.config.ts`.
+
+## Authoritative reference
+
+See `SawaApp/docs/auth/better-auth-integration.md` for file-by-file implementation detail and the [Authentication](/en/concepts/architecture/authentication) concept page for the current flow diagram.

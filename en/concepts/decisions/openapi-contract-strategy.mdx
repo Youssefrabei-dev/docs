@@ -1,0 +1,31 @@
+---
+title: "OpenAPI contract strategy"
+description: "Why Sawa generates OpenAPI from Zod DTOs and serves separate public and contract surfaces."
+keywords: ["OpenAPI", "contract", "DTO", "mobile", "decision"]
+---
+
+Sawa does not hand-maintain OpenAPI YAML. Public API shapes are derived from Drizzle tables → Zod schemas → `api/docs/dtos/` → `registerPath` in `api/docs/*.ts` → `generateOpenAPI()` in `api/docs/registry.ts`.
+
+## Two HTTP surfaces
+
+| Surface | Path | Auth | Consumers |
+| --- | --- | --- | --- |
+| Public docs | `/docs.json`, `/docs` | None | Scalar UI, Mintlify export |
+| Contract API | `/contract/openapi` | `X-Sawa-Contract-Key` | SawaMobile, CI codegen |
+
+The contract endpoint wraps the same generated spec with version and hash metadata (`api/contract/buildContract.ts`).
+
+## Why separate surfaces
+
+- **Mintlify** needs a static `openAPI.json` checked into `MintlifyDocs` for the API Reference tab.
+- **Mobile and CI** need a versioned, authenticated contract to detect breaking changes before deploy.
+- **Developers** use Scalar at `/docs` during local development without an API key.
+
+## Developer rule
+
+A DTO alone does not create a callable mobile path. Every public endpoint needs both:
+
+1. Runtime route/controller/model code in `api/routes`, `api/controllers`, `api/models`.
+2. `registerPath` metadata in `api/docs/*.ts` importing DTOs from `api/docs/dtos/`.
+
+See [API contract](/en/concepts/architecture/api-contract) for the full pipeline diagram.

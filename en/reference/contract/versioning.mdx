@@ -1,0 +1,36 @@
+---
+title: "Contract versioning"
+description: "How API_CONTRACT_VERSION and spec hashes help mobile and CI detect contract drift."
+keywords: ["contract version", "API_CONTRACT_VERSION", "mobile", "CI"]
+---
+
+The contract API exposes version metadata alongside the OpenAPI document so consumers can fail fast on breaking changes.
+
+## Environment variables
+
+| Variable | Purpose |
+| --- | --- |
+| `API_CONTRACT_VERSION` | Semantic version string returned in the contract envelope |
+| `CONTRACT_API_KEY` | Shared secret for `X-Sawa-Contract-Key` header |
+
+Both are defined in `SawaApp/.env.template` and read by `api/config.ts`.
+
+## Contract endpoints
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/contract/version` | Version string only |
+| `GET` | `/contract/openapi` | Full envelope: version, spec hash, OpenAPI body |
+
+All `/contract/*` routes mount before session middleware and authenticate with the contract API key, not Better Auth bearer tokens.
+
+## Breaking change policy
+
+Bump `API_CONTRACT_VERSION` when you remove or rename public DTO fields, change required request bodies, or alter response wrappers in ways that break generated mobile types.
+
+Coordinate with mobile developers before deploying breaking contract changes. They run `npm run api:fetch` and `npm run typecheck` in `SawaMobile` to validate.
+
+## Related
+
+- [Mark a route mobile-hidden](/en/how-to/contract/mark-route-mobile-hidden)
+- [API contract](/en/concepts/architecture/api-contract)

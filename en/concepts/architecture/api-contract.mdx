@@ -1,0 +1,36 @@
+---
+title: "API contract"
+description: "How Sawa generates OpenAPI from DTOs and route registrations for Mintlify, mobile, and CI."
+keywords: ["OpenAPI", "contract", "DTO", "mobile", "Mintlify"]
+---
+
+Sawa's API reference is generated from backend code. Do not duplicate endpoint reference by hand unless a generated route is missing.
+
+```mermaid
+flowchart TB
+  Schema["Drizzle schema"] --> Zod["Zod DTOs in api/docs/dtos"]
+  Zod --> RouteDocs["api/docs/*.ts registerPath"]
+  RouteDocs --> Registry["api/docs/registry.ts"]
+  Registry --> PublicDocs["GET /docs.json"]
+  PublicDocs --> Mintlify["Mintlify openAPI.json"]
+  Registry --> Contract["GET /contract/openapi"]
+  Contract --> Mobile["Mobile and CI type generation"]
+```
+
+## DTO and route doc layers
+
+| Folder | Defines | In OpenAPI |
+| --- | --- | --- |
+| `api/docs/dtos/` | Request/response **shapes** (`PlaceDto`, wrappers) | `components.schemas` |
+| `api/docs/*.ts` | HTTP **operations** via `registerPath` | `paths` |
+
+Route doc files import DTOs and attach them to each operation. `registry.ts` auto-loads every `api/docs/*.ts` file (not `dtos/` directly).
+
+## Two OpenAPI surfaces
+
+- `/docs.json` is public and powers Scalar locally.
+- `/contract/openapi` is for mobile and CI. It requires `X-Sawa-Contract-Key` and wraps the spec with version and hash metadata.
+
+## Developer rule
+
+When a route changes, update runtime code, DTOs, `registerPath`, generated OpenAPI, and the Mintlify `openAPI.json` copy together.

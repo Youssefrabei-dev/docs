@@ -14,8 +14,114 @@
 				"language": "en",
 				"anchors": [
 					{
-						"anchor": "Getting Started",
-						"pages": ["index", "quickstart"]
+						"anchor": "Documentation",
+						"icon": "book-open",
+						"groups": [
+							{
+								"group": "Start here",
+								"icon": "rocket",
+								"pages": [
+									"en/index",
+									"en/start-here/overview",
+									"en/start-here/local-setup",
+									"en/start-here/project-map",
+									"en/start-here/new-developer-checklist"
+								]
+							},
+							{
+								"group": "Tutorials",
+								"icon": "route",
+								"pages": [
+									"en/tutorials/run-backend-locally",
+									"en/tutorials/first-authenticated-request",
+									"en/tutorials/add-your-first-endpoint"
+								]
+							},
+							{
+								"group": "Concepts",
+								"icon": "network",
+								"pages": [
+									{
+										"group": "Architecture",
+										"pages": [
+											"en/concepts/architecture/overview",
+											"en/concepts/architecture/request-lifecycle",
+											"en/concepts/architecture/backend-layering",
+											"en/concepts/architecture/authentication",
+											"en/concepts/architecture/api-contract",
+											"en/concepts/architecture/database-model",
+											"en/concepts/architecture/events-workflow",
+											"en/concepts/architecture/places-media-flow",
+											"en/concepts/architecture/deployment-topology"
+										]
+									},
+									{
+										"group": "Decisions",
+										"pages": [
+											"en/concepts/decisions/better-auth-migration",
+											"en/concepts/decisions/openapi-contract-strategy"
+										]
+									}
+								]
+							},
+							{
+								"group": "How-to guides",
+								"icon": "wrench",
+								"pages": [
+									{
+										"group": "Backend",
+										"pages": [
+											"en/how-to/backend/add-route-controller-model",
+											"en/how-to/backend/add-openapi-dto",
+											"en/how-to/backend/update-database-schema",
+											"en/how-to/backend/add-environment-variable",
+											"en/how-to/backend/debug-authenticated-route"
+										]
+									},
+									{
+										"group": "Contract",
+										"pages": [
+											"en/how-to/contract/publish-api-contract",
+											"en/how-to/contract/mark-route-mobile-hidden"
+										]
+									},
+									{
+										"group": "Operations",
+										"pages": [
+											"en/how-to/ops/run-migrations",
+											"en/how-to/ops/inspect-liam-erd",
+											"en/how-to/ops/seed-local-data",
+											"en/how-to/manage-media-uploads",
+											"en/how-to/deploy"
+										]
+									}
+								]
+							},
+							{
+								"group": "Reference",
+								"icon": "book",
+								"pages": [
+									"en/reference/backend/commands",
+									"en/reference/backend/environment",
+									"en/reference/backend/project-layout",
+									"en/reference/backend/file-responsibilities",
+									"en/reference/backend/error-model",
+									"en/reference/backend/middleware",
+									{
+										"group": "Contract",
+										"pages": [
+											"en/reference/contract/openapi-generation",
+											"en/reference/contract/versioning"
+										]
+									}
+								]
+							},
+							{
+								"group": "Later phases",
+								"icon": "layers",
+								"pages": ["en/mobile/overview", "en/ux/overview"]
+							}
+						]
 					},
 					{
 						"anchor": "API Reference",
